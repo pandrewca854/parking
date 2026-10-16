@@ -1,7 +1,7 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f4f8; /* Un gris azulado muy suave */
-    color: #333333;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #f2ede4; /* Blanco hueso */
+    color: #2b2f38;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,29 +10,35 @@ body {
 }
 
 .contenedor {
-    background-color: #ffffff;
-    padding: 30px 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #faf8f3; /* Hueso más claro para la tarjeta */
+    padding: 35px 40px;
+    border-radius: 12px;
+    border: 1px solid #e2dccf;
+    box-shadow: 0 10px 30px rgba(31, 42, 68, 0.12);
     width: 100%;
     max-width: 350px;
 }
 
 header {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #e2dccf;
 }
 
 header h1 {
-    color: #2c3e50; /* Azul oscuro elegante */
-    margin: 0 0 5px 0;
-    font-size: 24px;
+    color: #1f2a44; /* Azul navy */
+    margin: 0 0 6px 0;
+    font-size: 26px;
+    letter-spacing: 1px;
 }
 
 header p {
-    color: #7f8c8d;
+    color: #7a7f8a;
     margin: 0;
-    font-size: 14px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 .grupo-formulario {
@@ -42,38 +48,46 @@ header p {
 label {
     display: block;
     margin-bottom: 8px;
-    font-weight: bold;
+    font-weight: 600;
     font-size: 14px;
+    color: #3a4050;
 }
 
 input[type="text"], select {
     width: 100%;
     padding: 10px;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
+    background-color: #ffffff;
+    color: #2b2f38;
+    border: 1px solid #d6d0c3;
+    border-radius: 6px;
     box-sizing: border-box; /* Asegura que el padding no rompa el ancho */
     font-size: 16px;
 }
 
+input[type="text"]::placeholder {
+    color: #a3a7b0;
+}
+
 input[type="text"]:focus, select:focus {
-    border-color: #3498db;
+    border-color: #34466e;
     outline: none;
-    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+    box-shadow: 0 0 0 3px rgba(52, 70, 110, 0.15);
 }
 
 .boton-registrar {
     width: 100%;
-    background-color: #3498db; /* Azul corporativo */
-    color: white;
+    background-color: #34466e; /* Azul navy sutil */
+    color: #ffffff;
     border: none;
     padding: 12px;
     font-size: 16px;
     font-weight: bold;
-    border-radius: 5px;
+    letter-spacing: 0.5px;
+    border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .boton-registrar:hover {
-    background-color: #2980b9; 
+    background-color: #263556;
 }
