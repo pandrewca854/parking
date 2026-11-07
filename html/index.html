@@ -3,32 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>parking</title>
     <link rel="stylesheet" href="/css/estilos.css">
 </head>
 <body>
-    <div class="contenedor">
-        <header>
-            <h1>Acompany Parking</h1>
-            <p>Control de Acceso de Vehículos</p>
-        </header>
+    <nav class="menu-navegacion">
+        <section class="opciones-navegacion">
+            <button class="boton-nav">Ingreso</button>
+            <button class="boton-nav">Salida</button>
+            <button class="boton-nav">Métricas</button>
+            <button class="boton-nav">Ticket/Factura</button>
+            <button class="boton-nav">Cerrar sesión</button>
+        </section>
+    </nav>
+    
+        <section class="contenedor">
+            <header>
+                <h1>Parking Company</h1>
+                <p>Control de Acceso de Vehículos</p>
+            </header>
 
-        <form action="#" method="POST">
-            <div class="grupo-formulario">
-                <label for="placa">Placa del Vehículo:</label>
-                <input type="text" id="placa" name="placa" placeholder="Ej: ABC-123" required>
-            </div>
+            <form action="#" method="POST">
+                <section class="grupo-formulario">
+                    <label for="placa">Placa del Vehículo:</label>
+                    <input type="text" id="placa" name="placa" placeholder="Ej: ABC-123" required>
+                </section>
 
-            <div class="grupo-formulario">
-                <label for="tipoVehiculo">Tipo de Vehículo:</label>
-                <select id="tipoVehiculo" name="tipoVehiculo">
-                    <option value="1">Carro</option>
-                    <option value="2">Motocicleta</option>
-                </select>
-            </div>
+                <section class="grupo-formulario">
+                    <label for="tipoVehiculo">Tipo de Vehículo:</label>
+                    <select id="tipoVehiculo" name="tipoVehiculo">
+                        <option value="1">Carro</option>
+                        <option value="2">Motocicleta</option>
+                    </select>
+                </section>
 
-            <button type="submit" class="boton-registrar">Registrar Ingreso</button>
-        </form>
-    </div>
+                <button type="submit" class="boton-registrar">Registrar Ingreso</button>
+            </form>
+        </section>
 </body>
 </html>
