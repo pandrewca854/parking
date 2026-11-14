@@ -5,8 +5,30 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
+}
+
+h2 {
+    font-size: 16px;
+    color: #1f2a44;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+th, td {
+    border: 1px solid #e2dccf;
+    padding: 6px;
+    text-align: left;
+}
+
+#mensaje {
+    font-size: 14px;
+    color: #34466e;
 }
 
 .contenedor {
@@ -42,7 +64,7 @@ header p {
 }
 
 .grupo-formulario {
-    margin-bottom: 20px;
+    margin: 0 0 20px 0;
 }
 
 label {
