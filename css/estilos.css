@@ -3,6 +3,7 @@ body {
     background-color: #f2ede4; /* Blanco hueso */
     color: #2b2f38;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -39,6 +40,7 @@ th, td {
     box-shadow: 0 10px 30px rgba(31, 42, 68, 0.12);
     width: 100%;
     max-width: 350px;
+    margin-top: 80px;
 }
 
 header {
