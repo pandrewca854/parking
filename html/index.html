@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peter Parker - Registro de Ingreso</title>
-    <link rel="stylesheet" href="/css/estilos.css">
+    <title>Registro de Ingreso</title>
+    <link rel="stylesheet" href="../css/estilos.css">
 </head>
 <body>
     <main class="contenedor">
@@ -13,31 +13,77 @@
             <p>Ingreso de Acceso de Vehículos</p>
         </header>
 
-        <form action="/registrar" method="POST">
-            <p class="grupo-formulario">
-                <label for="placa">Placa del Vehículo:</label>
-                <input type="text" id="placa" name="placa" placeholder="Ej: ABC123 o ABC12D" maxlength="7" required>
-            </p>
-
+        <form id="formulario">
+            <label for="placa">Placa del Vehículo:</label>
+            <input type="text" id="placa" placeholder="Ej: ABC123 o ABC12D" maxlength="7" required>
             <button type="submit" class="boton-registrar">Registrar Ingreso</button>
-            <p id="mensaje" role="status">MENSAJE</p>
+            <p id="mensaje"></p>
         </form>
 
-        <section>
-            <h2>Vehículos registrados</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Placa</th>
-                        <th>Tipo</th>
-                        <th>Hora</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    FILAS
-                </tbody>
-            </table>
-        </section>
+        <h2>Vehículos registrados</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Placa</th>
+                    <th>Tipo</th>
+                    <th>Hora</th>
+                </tr>
+            </thead>
+            <tbody id="filas"></tbody>
+        </table>
     </main>
+
+    <script>
+        var vehiculos = JSON.parse(localStorage.getItem("vehiculos")) || [];
+
+        function limpiar(placa) {
+            return placa.toUpperCase().replace(/[ -]/g, "");
+        }
+
+        function identificar(placa) {
+            if (/^[A-Z]{3}[0-9]{2}[A-Z]$/.test(placa)) {
+                return "Moto";
+            }
+            if (/^[A-Z]{3}[0-9]{3}$/.test(placa)) {
+                return "Carro";
+            }
+            return null;
+        }
+
+        function mostrarTabla() {
+            var filas = document.getElementById("filas");
+            filas.innerHTML = "";
+            for (var i = 0; i < vehiculos.length; i++) {
+                var fila = filas.insertRow();
+                for (var j = 0; j < vehiculos[i].length; j++) {
+                    fila.insertCell().textContent = vehiculos[i][j];
+                }
+            }
+        }
+
+        document.getElementById("formulario").addEventListener("submit", function (evento) {
+            evento.preventDefault();
+
+            var campo = document.getElementById("placa");
+            var mensaje = document.getElementById("mensaje");
+            var placa = limpiar(campo.value);
+            var tipo = identificar(placa);
+
+            if (tipo === null) {
+                mensaje.textContent = "Placa no válida. Use 3 letras + 3 números (carro) o 3 letras + 2 números + 1 letra (moto).";
+                return;
+            }
+
+            var hora = new Date().toLocaleTimeString("es-CO", { hour12: false });
+            vehiculos.push([placa, tipo, hora]);
+            localStorage.setItem("vehiculos", JSON.stringify(vehiculos));
+
+            mensaje.textContent = "Registrado: " + placa + " es " + tipo;
+            campo.value = "";
+            mostrarTabla();
+        });
+
+        mostrarTabla();
+    </script>
 </body>
 </html>
