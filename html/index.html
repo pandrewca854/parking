@@ -5,18 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Ingreso</title>
     <link rel="stylesheet" href="../css/estilos.css">
+    <style>
+        .boton-registrar.modo-salida {
+            background-color: #a63a3a;
+        }
+        .boton-registrar.modo-salida:hover {
+            background-color: #872c2c;
+        }
+    </style>
 </head>
 <body>
     <main class="contenedor">
         <header>
             <h1>Peter Parker</h1>
-            <p>Ingreso de Acceso de Vehículos</p>
+            <p>REGISTRO DE VEHICULOS</p>
         </header>
 
         <form id="formulario">
-            <label for="placa">Placa del Vehículo:</label>
-            <input type="text" id="placa" placeholder="Ej: ABC123 o ABC12D" maxlength="7" required>
-            <button type="submit" class="boton-registrar">Registrar Ingreso</button>
+            <div class="grupo-formulario">
+                <label for="placa">Placa del Vehículo:</label>
+                <input type="text" id="placa" placeholder="Ej: ABC123 o ABC12D" maxlength="7" required>
+            </div>
+            <button type="submit" id="boton-accion" class="boton-registrar">Registrar Ingreso</button>
             <p id="mensaje"></p>
         </form>
 
@@ -36,6 +46,10 @@
     <script>
         var vehiculos = JSON.parse(localStorage.getItem("vehiculos")) || [];
 
+        var campo = document.getElementById("placa");
+        var boton = document.getElementById("boton-accion");
+        var mensaje = document.getElementById("mensaje");
+
         function limpiar(placa) {
             return placa.toUpperCase().replace(/[ -]/g, "");
         }
@@ -50,6 +64,27 @@
             return null;
         }
 
+        // busca la posicion de la placa en el array devuelve -1 si no está
+        function buscarIndice(placa) {
+            for (var i = 0; i < vehiculos.length; i++) {
+                if (vehiculos[i][0] === placa) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        // cambia el botón de "registrar ingreso" y "registrar salida"
+        function actualizarModoBoton(estaRegistrado) {
+            if (estaRegistrado) {
+                boton.textContent = "Registrar Salida";
+                boton.classList.add("modo-salida");
+            } else {
+                boton.textContent = "Registrar Ingreso";
+                boton.classList.remove("modo-salida");
+            }
+        }
+
         function mostrarTabla() {
             var filas = document.getElementById("filas");
             filas.innerHTML = "";
@@ -61,14 +96,45 @@
             }
         }
 
+        // revisa en tiempo real si la placa escrita ya está dentro del parqueadero
+        campo.addEventListener("input", function () {
+            var placa = limpiar(campo.value);
+            var indice = buscarIndice(placa);
+
+            if (indice !== -1) {
+                actualizarModoBoton(true);
+                mensaje.textContent = "El vehículo " + placa + " ingresó a las " + vehiculos[indice][2] + ". Presiona para dar salida.";
+            } else {
+                actualizarModoBoton(false);
+                if (mensaje.textContent.indexOf("Presiona para dar salida") !== -1) {
+                    mensaje.textContent = "";
+                }
+            }
+        });
+
         document.getElementById("formulario").addEventListener("submit", function (evento) {
             evento.preventDefault();
 
-            var campo = document.getElementById("placa");
-            var mensaje = document.getElementById("mensaje");
             var placa = limpiar(campo.value);
-            var tipo = identificar(placa);
+            var indice = buscarIndice(placa);
 
+            // si la placa ya existe, se procesa la salida
+            if (indice !== -1) {
+                var vehiculoSaliente = vehiculos[indice];
+                var horaSalida = new Date().toLocaleTimeString("es-CO", { hour12: false });
+
+                vehiculos.splice(indice, 1);
+                localStorage.setItem("vehiculos", JSON.stringify(vehiculos));
+
+                mensaje.textContent = "Salida registrada: " + vehiculoSaliente[0] + " (" + vehiculoSaliente[1] + ") | Entrada: " + vehiculoSaliente[2] + " - Salida: " + horaSalida;
+                campo.value = "";
+                actualizarModoBoton(false);
+                mostrarTabla();
+                return;
+            }
+
+            // revisa si la placa no existe, se valida y luego registra el ingreso
+            var tipo = identificar(placa);
             if (tipo === null) {
                 mensaje.textContent = "Placa no válida. Use 3 letras + 3 números (carro) o 3 letras + 2 números + 1 letra (moto).";
                 return;
@@ -80,6 +146,7 @@
 
             mensaje.textContent = "Registrado: " + placa + " es " + tipo;
             campo.value = "";
+            actualizarModoBoton(false);
             mostrarTabla();
         });
 

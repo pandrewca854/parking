@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peter Parker - Acceso al Sistema</title>
+    <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body>
+    <main class="contenedor">
+        <header>
+            <h1>Peter Parker</h1>
+            <p>Ingreso de Operario al Sistema</p>
+        </header>
+
+        <form id="formulario-login">
+            <p class="grupo-formulario">
+                <label for="cedula">Número de Cédula:</label>
+                <input
+                    type="text"
+                    id="cedula"
+                    inputmode="numeric"
+                    placeholder="Ej: 1020304050"
+                    maxlength="12"
+                    required
+                >
+            </p>
+            <button type="submit" class="boton-registrar">Ingresar al Sistema</button>
+            <p id="mensaje"></p>
+        </form>
+    </main>
+
+    <script>
+        function limpiarCedula(valor) {
+            return valor.replace(/[\s.-]/g, "");
+        }
+
+        document.getElementById("formulario-login").addEventListener("submit", function (evento) {
+            evento.preventDefault();
+
+            var campoCedula = document.getElementById("cedula");
+            var mensaje = document.getElementById("mensaje");
+            var cedula = limpiarCedula(campoCedula.value);
+
+            if (!/^[0-9]{6,10}$/.test(cedula)) {
+                mensaje.textContent = "Cédula no válida. Ingrese entre 6 y 10 dígitos numéricos.";
+                return;
+            }
+
+            localStorage.setItem("operarioActivo", JSON.stringify({
+                cedula: cedula,
+                horaIngreso: new Date().toLocaleTimeString("es-CO", { hour12: false })
+            }));
+
+            window.location.href = "index.html";
+        });
+    </script>
+</body>
+</html>
